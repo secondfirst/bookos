@@ -1,11 +1,13 @@
+# デバッグノート
 - Xiaoマイコンが認識されずにビルド済みデバッガを配置できないエラー
   - 余っているケーブルの導線をむき出しにして、XiaoのRSTと書いてあるふたつのポイントに両端を数回当ててショートさせて点灯状態とすることで、ファイルシステムが認識された。
 
 
 - cargo build でデバイスが見つからないエラー
--> udev配下にデバイス定義をしていなかった。
+-> udev配下にデバイス定義をしていなかったので、定義した。
 
 - openocdでcfgが見つからないエラー
+```
 $ openocd -f interface/cmsis-dap.cfg -f target/atsame5x.cfg
 Open On-Chip Debugger 0.11.0-rc2+dev-gcafa0b5 (2021-02-20-22:15)
 Licensed under GNU GPL v2
@@ -14,6 +16,7 @@ For bug reports, read
 embedded:startup.tcl:26: Error: Can't find interface/cmsis-dap.cfg
 in procedure 'script' 
 at file "embedded:startup.tcl", line 26
+```
 
 -> 手動インストールしていたが、/usr配下に対象プログラムのscriptやmanなどを移動していなかった。
 
