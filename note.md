@@ -15,16 +15,38 @@
 - カレントバリューレジスタ（CVR）
 - キャリブレーションバリューレジスタ（CALIB)
 
-
-#
+```
 https://docs.rust-embedded.org/embedonomicon/memory-layout.html
+```
 
 # 実行コマンド
-cargo build --target thumbv7em-none-eabihf
 
+- コンパイル
+```
 RUSTFLAGS="-C link-args=-Tlink.ld" cargo build --target thumbv7em-none-eabihf
 
-- cargo hf2 ... フラッシュROMにプログラムを書き込む
+# .cargo/configにファイルにbuild optionを記載した場合
+cargo build
+
+```
+
+- プログラムをWioTerminalへロードする
+```
+# フラッシュROMにプログラムを書き込む
+cargo hf2 
+
+```
+
+- デバッグサーバを起動する。
+Xiaoデバッグモジュールを接続して状態で
+```
+openocd -f interface/cmsis-dap.cfg -f target/atsame5x.cfg
+```
+
+- デバッグクライアントを起動し、デバッグサーバへ接続する。
+
+gdb-multiarch target/thumbv7em-none-eabihf/debug/bookos
+
 
 # 設定ファイルなど
 - rust-toolchain ... rustupへどのバージョンのRustを使えばいいかを教えてくれる。

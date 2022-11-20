@@ -4,6 +4,7 @@
 use core::panic::PanicInfo;
 use core::ptr;
 use cortex_m_semihosting::hprintln;
+mod systick;
 pub union Vector {
     reserved: u32,
     handler: unsafe extern "C" fn(),
@@ -37,6 +38,7 @@ pub static EXCEPTIONS: [Vector; 14] = [
     Vector { reserved: 0 },
     Vector { reserved: 0 },
     Vector { handler: PendSV },
+    Vector { handler: SysTick },
 ];
 
 #[no_mangle]

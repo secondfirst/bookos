@@ -3,10 +3,10 @@
   - 余っているケーブルの導線をむき出しにして、XiaoのRSTと書いてあるふたつのポイントに両端を数回当ててショートさせて点灯状態とすることで、ファイルシステムが認識された。
 
 
-- cargo build でデバイスが見つからないエラー
--> udev配下にデバイス定義をしていなかったので、定義した。
+## cargo build でデバイスが見つからないエラー
+- udev配下にデバイス定義をしていなかったので、定義した。
 
-- openocdでcfgが見つからないエラー
+## openocdでcfgが見つからないエラー
 ```
 $ openocd -f interface/cmsis-dap.cfg -f target/atsame5x.cfg
 Open On-Chip Debugger 0.11.0-rc2+dev-gcafa0b5 (2021-02-20-22:15)
@@ -18,11 +18,13 @@ in procedure 'script'
 at file "embedded:startup.tcl", line 26
 ```
 
--> 手動インストールしていたが、/usr配下に対象プログラムのscriptやmanなどを移動していなかった。
+- 手動インストールしていたが、/usr配下に対象プログラムのscriptやmanなどを移動していなかった。
 
-- Wio Terminalへ接続できない？
+## Wio Terminalへ接続できない？
 
+```
 $ openocd -f interface/cmsis-dap.cfg -f target/atsame5x.cfg
+
 Open On-Chip Debugger 0.11.0-rc2+dev-gcafa0b5 (2021-02-20-22:15)
 Licensed under GNU GPL v2
 For bug reports, read
@@ -41,18 +43,27 @@ Info : CMSIS-DAP: Interface ready
 Info : clock speed 2000 kHz
 Error: Error connecting DP: cannot read IDR
 Info : DAP init failed
+```
 
--> FPCケーブルのWio terminal側接続の誤り。
+- FPCケーブルのWio terminal側接続の誤り。
    0.5mmピッチ、10ピンのコネクタの位置が変わっていたので、差し直した。
 
--> ピンのコネクタ接続間違い
+- ピンのコネクタ接続間違い
    FPCコネクタのケーブルをつなげる面の番号が合っていなかった(1, 2, 4, 6のピン)。
 
--> ハンダ付け不備による接触不良
+- ハンダ付け不備による接触不良
    - デバッグサーバ起動に成功する場合があったが、すぐに落ちたことから接触不良と判断しハンダの付け見直しを行う。
 
--> 起動順序
+- 起動順序
    次の順序で起動するようにした。
    1.WIO Terminal のスイッチをいれてブートローダモード後にhf2コマンドでアップロード。
    2.XIAO を接続して起動
    3.openocd でXiao上のデバッグサーバを起動。
+
+## Wio Terminalへプログラムをインストール（cargo hf2 ）できない？
+```
+   thread 'main' panicked at 'Are you sure device is plugged in and in bootloader mode?', /home/yoshi/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo-hf2-0.3.3/src/main.rs:98:16
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+- Wio Terminal がブートローダモードになっていないため、ブートローダモードにする。
